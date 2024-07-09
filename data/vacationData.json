@@ -1,0 +1,21 @@
+{
+    "vacationTypes": [
+        { "id": 1, "name": "Beach" },
+        { "id": 2, "name": "Mountain" },
+        { "id": 3, "name": "City" },
+        { "id": 4, "name": "Cruise" },
+        { "id": 5, "name": "Adventure" }
+    ],
+    "destinations": [
+        { "id": 1, "name": "Hawaii" },
+        { "id": 2, "name": "Swiss Alps" },
+        { "id": 3, "name": "New York City" },
+        { "id": 4, "name": "Paris" },
+        { "id": 5, "name": "Tokyo" },
+        { "id": 6, "name": "Sydney" },
+        { "id": 7, "name": "Rome" },
+        { "id": 8, "name": "Cape Town" },
+        { "id": 9, "name": "Rio de Janeiro" },
+        { "id": 10, "name": "Iceland" }
+    ]
+}
