@@ -24,11 +24,11 @@ const getDestinations = (req, res) => {
 };
 
 const createVacation = async (req, res) => {
-    const { userid, start_date, end_date, duration, destination_id, vacation_type_id } = req.body;
+    const { id, userid, start_date, end_date, duration, destinations, vacation_type } = req.body;
 
     try {
-        const [result] = await pool.query('INSERT INTO tbl_45_vacations (userid, start_date, end_date, duration, destination_id, vacation_type_id) VALUES (?, ?, ?, ?, ?, ?)', 
-            [userid, start_date, end_date, duration, destination_id, vacation_type_id]);
+        const [result] = await pool.query('INSERT INTO tbl_45_vacations (id, userid, start_date, end_date, duration, destinations, vacation_type) VALUES (?, ?, ?, ?, ?, ?)', 
+            [id, userid, start_date, end_date, duration, destinations, vacation_type]);
 
         console.log('Vacation created:', result);
         res.status(201).json({ message: 'Vacation created successfully.' });
