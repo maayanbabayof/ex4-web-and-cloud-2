@@ -1,5 +1,4 @@
 const mysql = require('mysql2/promise');
-const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const pool = mysql.createPool({
@@ -31,8 +30,7 @@ const createUser = async (req, res) => {
             return res.status(400).json({ error: 'User already exists.' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const [result] = await pool.query('INSERT INTO tbl_45_users (username, password) VALUES (?, ?)', [username, hashedPassword]);
+        const [result] = await pool.query('INSERT INTO tbl_45_users (username, password) VALUES (?, ?)', [username, password]);
         console.log('User created:', result);
 
         res.status(201).json({ message: 'User created successfully.' });
@@ -63,9 +61,7 @@ const loginUser = async (req, res) => {
         }
 
         const user = rows[0];
-        const passwordMatch = await bcrypt.compare(password, user.password);
-
-        if (!passwordMatch) {
+        if (user.password !== password) {
             return res.status(401).json({ error: 'Invalid password.' });
         }
 

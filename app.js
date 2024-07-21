@@ -18,5 +18,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-// https://ex4-web-and-cloud-2.onrender.com/api/users/all
