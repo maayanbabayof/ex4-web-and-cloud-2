@@ -4,10 +4,10 @@ const path = require('path');
 require('dotenv').config();
 
 const pool = mysql.createPool({
-    host: 'localhost',
+    host: process.env.DATABASE_HOSTNAME,
     user: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD,
-    database: 'Traveling',
+    database: process.env.DATABASE_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -27,11 +27,10 @@ const createVacation = async (req, res) => {
     const { userid, start_date, end_date, duration, destination_id, vacation_type_id } = req.body;
 
     try {
-        const [result] = await pool.query('INSERT INTO vacations (userid, start_date, end_date, duration, destination_id, vacation_type_id) VALUES (?, ?, ?, ?, ?, ?)',
+        const [result] = await pool.query('INSERT INTO tbl_45_vacations (userid, start_date, end_date, duration, destination_id, vacation_type_id) VALUES (?, ?, ?, ?, ?, ?)', 
             [userid, start_date, end_date, duration, destination_id, vacation_type_id]);
 
         console.log('Vacation created:', result);
-
         res.status(201).json({ message: 'Vacation created successfully.' });
     } catch (err) {
         console.error('Error creating vacation:', err);
@@ -41,7 +40,7 @@ const createVacation = async (req, res) => {
 
 const getAllVacations = async (req, res) => {
     try {
-        const [rows, fields] = await pool.query('SELECT * FROM vacations');
+        const [rows, fields] = await pool.query('SELECT * FROM tbl_45_vacations');
         res.status(200).json(rows);
     } catch (err) {
         console.error('Error fetching vacations:', err);

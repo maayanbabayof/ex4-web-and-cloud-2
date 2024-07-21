@@ -3,10 +3,10 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const pool = mysql.createPool({
-    host: 'localhost',
+    host: process.env.DATABASE_HOSTNAME,
     user: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD,
-    database: 'Traveling',
+    database: process.env.DATABASE_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -14,7 +14,7 @@ const pool = mysql.createPool({
 
 const checkUserExists = async (username) => {
     try {
-        const [rows, fields] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+        const [rows, fields] = await pool.query('SELECT * FROM tbl_45_users WHERE username = ?', [username]);
         return rows.length > 0;
     } catch (err) {
         console.error('Error checking user:', err);
@@ -32,7 +32,7 @@ const createUser = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const [result] = await pool.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword]);
+        const [result] = await pool.query('INSERT INTO tbl_45_users (username, password) VALUES (?, ?)', [username, hashedPassword]);
         console.log('User created:', result);
 
         res.status(201).json({ message: 'User created successfully.' });
@@ -44,7 +44,7 @@ const createUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
     try {
-        const [rows, fields] = await pool.query('SELECT * FROM users');
+        const [rows, fields] = await pool.query('SELECT * FROM tbl_45_users');
         res.status(200).json(rows);
     } catch (err) {
         console.error('Error fetching users:', err);
@@ -56,7 +56,7 @@ const loginUser = async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        const [rows, fields] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+        const [rows, fields] = await pool.query('SELECT * FROM tbl_45_users WHERE username = ?', [username]);
 
         if (rows.length === 0) {
             return res.status(404).json({ error: 'User not found.' });
